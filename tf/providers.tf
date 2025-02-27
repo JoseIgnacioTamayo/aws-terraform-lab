@@ -34,11 +34,19 @@ provider "aws" {
 provider "aws" {
   allowed_account_ids = [var.aws_account_id]
   profile             = var.aws_cli_profile
-  region              = var.region
+  region              = var.s3_region
 
   alias = "s3"
 
   default_tags {
     tags = merge(var.tags, local.git_tags)
   }
+}
+
+provider "aws" {
+  allowed_account_ids = [var.aws_account_id]
+  profile             = var.use_tfstate_mirror ? var.tfstate_mirror.s3_aws_cli_profile : var.aws_cli_profile
+  region              = var.use_tfstate_mirror ? var.tfstate_mirror.s3_region : var.s3_region
+
+  alias = "tfstate_mirror"
 }

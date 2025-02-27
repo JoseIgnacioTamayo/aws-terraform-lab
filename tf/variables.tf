@@ -42,36 +42,31 @@ variable "entropy" {
   default     = "DoNotChange"
 }
 
-variable "use_mirror" {
+variable "use_tfstate_mirror" {
   type        = bool
   default     = false
-  description = "True to read as data the same TerraformState and expose additional outputs"
+  description = "True to read the remote TerraformState and expose the random values"
 }
 
+variable "tfstate_mirror" {
+  type = object({
+    tfstate_s3_path    = string
+    s3_region          = string
+    s3_bucket          = string
+    s3_aws_cli_profile = string
+  })
+  default     = null
+  description = "Read as data the TerraformState and expose the random values"
+}
 
-# Variables named just like the S3 Backend config
-variable "bucket" {
+variable "s3_bucket" {
   type        = string
   sensitive   = true
   description = "S3 Bucket name"
 }
 
-variable "region" {
+variable "s3_region" {
   type        = string
   sensitive   = true
   description = "S3 Bucket Region"
-}
-
-variable "key" {
-  type        = string
-  sensitive   = true
-  default     = ""
-  description = "Path in the S3 bucket to the TerraformState"
-}
-
-variable "profile" {
-  type        = string
-  sensitive   = true
-  default     = ""
-  description = "AWS Cli Profile used to operate remote TerraformState in the S3 Bucket"
 }

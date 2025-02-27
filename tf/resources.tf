@@ -60,17 +60,33 @@ module "magic" {
 module "mirror" {
   source = "./modules/mirror_random_id"
 
-  count = var.use_mirror ? 1 : 0
+  count = var.use_tfstate_mirror ? 1 : 0
 
-  s3_bucket            = var.bucket
-  s3_region            = var.region
-  terraform_state_path = var.key
+  providers = {
+    aws = aws.tfstate_mirror
+  }
+
+  s3_bucket            = var.tfstate_mirror.s3_bucket
+  s3_region            = var.tfstate_mirror.s3_region
+  terraform_state_path = var.tfstate_mirror.tfstate_s3_path
+  aws_cli_profile      = var.tfstate_mirror.s3_aws_cli_profile
+}
+
+resource "terraform_data" "tfstate_mirror" {
+  input = var.use_tfstate_mirror
+
+  lifecycle {
+    precondition {
+      condition     = var.use_tfstate_mirror ? var.tfstate_mirror != null : true
+      error_message = "If use_tfstate_mirror is tru, the variable tfstate_mirror must be provided"
+    }
+  }
 }
 
 data "aws_s3_bucket" "this" {
   provider = aws.s3
 
-  bucket = var.bucket
+  bucket = var.s3_bucket
 }
 
 resource "aws_s3_object" "crumble" {

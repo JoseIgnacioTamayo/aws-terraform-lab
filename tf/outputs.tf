@@ -7,7 +7,7 @@ output "random_pet" {
 }
 
 output "mirrored_random_id" {
-  value = var.use_mirror ? module.mirror[0].random_id : "404NotFound"
+  value = var.use_tfstate_mirror ? module.mirror[0].random_id : ""
 }
 
 output "k8s_nodes_dns" {
