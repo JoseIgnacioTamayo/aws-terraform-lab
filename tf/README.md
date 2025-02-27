@@ -37,6 +37,7 @@ This needs a pre-existing S3 Bucket where the TF State of all environments is wr
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 5.84.0 |
 | <a name="provider_aws.s3"></a> [aws.s3](#provider\_aws.s3) | 5.84.0 |
 | <a name="provider_git"></a> [git](#provider\_git) | 2025.1.3 |
+| <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
 
@@ -52,6 +53,7 @@ This needs a pre-existing S3 Bucket where the TF State of all environments is wr
 | Name | Type |
 |------|------|
 | [aws_s3_object.crumble](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object) | resource |
+| [terraform_data.tfstate_mirror](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 | [aws_availability_zones.available](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones) | data source |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_iam_session_context.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_session_context) | data source |
@@ -63,19 +65,18 @@ This needs a pre-existing S3 Bucket where the TF State of all environments is wr
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_aws_account_id"></a> [aws\_account\_id](#input\_aws\_account\_id) | AWS Account ID | `string` | n/a | yes |
-| <a name="input_aws_cli_profile"></a> [aws\_cli\_profile](#input\_aws\_cli\_profile) | n/a | `string` | n/a | yes |
-| <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS Region to use | `string` | n/a | yes |
-| <a name="input_bucket"></a> [bucket](#input\_bucket) | n/a | `string` | `""` | no |
+| <a name="input_aws_account_id"></a> [aws\_account\_id](#input\_aws\_account\_id) | AWS Account ID to deploy the resources to | `string` | n/a | yes |
+| <a name="input_aws_cli_profile"></a> [aws\_cli\_profile](#input\_aws\_cli\_profile) | AWS Cli profile to use to interact with AWS | `string` | n/a | yes |
+| <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS Region to deploy the resources to | `string` | n/a | yes |
 | <a name="input_entropy"></a> [entropy](#input\_entropy) | Change this value to regenerate the randonmess | `string` | `"DoNotChange"` | no |
-| <a name="input_key"></a> [key](#input\_key) | n/a | `string` | `""` | no |
-| <a name="input_profile"></a> [profile](#input\_profile) | n/a | `string` | `""` | no |
-| <a name="input_region"></a> [region](#input\_region) | n/a | `string` | `""` | no |
-| <a name="input_ssh_publickey_file"></a> [ssh\_publickey\_file](#input\_ssh\_publickey\_file) | n/a | `string` | n/a | yes |
+| <a name="input_s3_bucket"></a> [s3\_bucket](#input\_s3\_bucket) | S3 Bucket name | `string` | n/a | yes |
+| <a name="input_s3_region"></a> [s3\_region](#input\_s3\_region) | S3 Bucket Region | `string` | n/a | yes |
+| <a name="input_ssh_publickey_file"></a> [ssh\_publickey\_file](#input\_ssh\_publickey\_file) | Public key to upload to AWS as a KeyPair. Use the private key to SSH to VMs | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | `{}` | no |
-| <a name="input_use_mirror"></a> [use\_mirror](#input\_use\_mirror) | Variables named just like the S3 Backend config | `bool` | `false` | no |
-| <a name="input_vm_iam_role"></a> [vm\_iam\_role](#input\_vm\_iam\_role) | n/a | `string` | n/a | yes |
-| <a name="input_vpc"></a> [vpc](#input\_vpc) | n/a | <pre>object({<br>    cidr = string<br>    name = string<br>  })</pre> | n/a | yes |
+| <a name="input_tfstate_mirror"></a> [tfstate\_mirror](#input\_tfstate\_mirror) | Read as data the TerraformState and expose the random values | <pre>object({<br>    tfstate_s3_path    = string<br>    s3_region          = string<br>    s3_bucket          = string<br>    s3_aws_cli_profile = string<br>  })</pre> | `null` | no |
+| <a name="input_use_tfstate_mirror"></a> [use\_tfstate\_mirror](#input\_use\_tfstate\_mirror) | True to read the remote TerraformState and expose the random values | `bool` | `false` | no |
+| <a name="input_vm_iam_role"></a> [vm\_iam\_role](#input\_vm\_iam\_role) | IAM Role to attach to VMs | `string` | n/a | yes |
+| <a name="input_vpc"></a> [vpc](#input\_vpc) | VPC to deploy the resources in | <pre>object({<br>    cidr = string<br>    name = string<br>  })</pre> | n/a | yes |
 
 ## Outputs
 
