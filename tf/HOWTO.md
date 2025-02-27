@@ -61,10 +61,12 @@ https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_
 ## Run Terraform, run
 
 ```
-export TF_ENV="<environment>"
-tf workspace select $TF_ENV
-tf init --backend-config backend.tfvars
-TF_IN_AUTOMATION=1 tf plan --var-file ./envs/$TF_ENV/values.tfvars --input=false
+export TF_WORKSPACE="<environment>"
+export TF_CLI_ARGS_PLAN="--input=false"
+export TF_CLI_ARGS_APPLY="--input=false"
+export TF_IN_AUTOMATION=1
+terraform init --backend-config backend.tfvars
+terraform plan --var-file ./envs/$TF_WORKSPACE/values.tfvars
 ```
 
 ## SSH to VMs
