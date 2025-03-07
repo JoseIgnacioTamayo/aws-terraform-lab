@@ -6,6 +6,10 @@ output "jumphost_ip" {
   value = aws_instance.jumphost.public_ip
 }
 
+output "jumphost_http_health" {
+  value = "http://${aws_instance.jumphost.public_dns}:8080/health"
+}
+
 output "jumphost_user" {
   value = "admin"
 }
