@@ -23,8 +23,8 @@ resource "aws_instance" "jumphost" {
 
   vpc_security_group_ids = [aws_security_group.jumphost.id]
 
-  user_data = filebase64("${path.module}/jumphost_boot.sh")
-  user_data_replace_on_change = true  # Because of Spot, VM needs to be recreated
+  user_data                   = filebase64("${path.module}/jumphost_boot.sh")
+  user_data_replace_on_change = true # Because of Spot, VM needs to be recreated
 
 }
 
@@ -98,11 +98,11 @@ resource "aws_security_group" "jumphost" {
 # Checking the Jumphost is UP via Check and Postcondition
 check "jumphost" {
   data "http" "jumphost_check" {
-  url    = "http://${aws_instance.jumphost.public_dns}:8080"
-  method = "HEAD"
+    url    = "http://${aws_instance.jumphost.public_dns}:8080"
+    method = "HEAD"
   }
   assert {
-    condition = data.http.jumphost_check.status_code == 204
+    condition     = data.http.jumphost_check.status_code == 204
     error_message = "Jumphost ${aws_instance.jumphost.public_dns} is not ready"
   }
 }
@@ -113,7 +113,7 @@ data "http" "jumphost" {
 
   lifecycle {
     postcondition {
-      condition = self.status_code == 200
+      condition     = self.status_code == 200
       error_message = "Jumphost ${aws_instance.jumphost.public_dns} is not ready"
     }
   }

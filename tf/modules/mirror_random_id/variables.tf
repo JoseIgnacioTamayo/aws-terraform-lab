@@ -18,6 +18,6 @@ variable "s3_region" {
 }
 
 variable "aws_cli_profile" {
-  type        = string
-  sensitive   = true
+  type      = string
+  sensitive = true
 }
