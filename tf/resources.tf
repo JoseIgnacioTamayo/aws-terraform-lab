@@ -95,4 +95,11 @@ resource "aws_s3_object" "crumble" {
   key     = "crumble.txt"
   bucket  = data.aws_s3_bucket.this.id
   content = module.magic.random_pet
+
+  lifecycle {
+    postcondition {
+      condition     = self.storage_class == "STANDARD"
+      error_message = "StorageClass is not STANDARD"
+    }
+  }
 }
