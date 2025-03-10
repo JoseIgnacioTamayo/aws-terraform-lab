@@ -2,8 +2,13 @@ output "random_id" {
   value = module.magic.random_id
 }
 
-output "random_pet" {
-  value = module.magic.random_pet
+output "random_string" {
+  value = module.magic.random_string
+  # postcondition not possible on outputs
+  precondition {
+    condition     = length(regexall("[!@#$%&*\\(\\)\\-_=+\\[\\]{}<>:\\?]+", module.magic.random_string)) > 0
+    error_message = "String must have special characters"
+  }
 }
 
 output "mirrored_random_id" {
