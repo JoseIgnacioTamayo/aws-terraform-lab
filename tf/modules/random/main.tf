@@ -8,6 +8,7 @@ resource "random_id" "this" {
 
 resource "random_string" "this" {
   length = var.length
+  # special = false
 
   keepers = {
     seed = var.seed
@@ -15,8 +16,8 @@ resource "random_string" "this" {
 }
 
 resource "random_integer" "this" {
-  min = 4
-  max = var.length
+  min = 3
+  max = var.length % 6
 
   seed = var.seed
 }
@@ -33,6 +34,10 @@ variable "length" {
 
 variable "seed" {
   type = string
+  validation {
+    condition     = length(var.seed) > 16
+    error_message = "The seed must be >16 characters length"
+  }
 }
 
 output "random_id" {

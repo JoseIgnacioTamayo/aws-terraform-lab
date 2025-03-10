@@ -6,6 +6,10 @@ variable "aws_account_id" {
 variable "aws_region" {
   type        = string
   description = "AWS Region to deploy the resources to"
+  validation {
+    condition     = startswith(var.aws_region, "eu-")
+    error_message = "Only EU regions are supported"
+  }
 }
 
 variable "aws_cli_profile" {
@@ -39,7 +43,7 @@ variable "vm_iam_role" {
 variable "entropy" {
   type        = string
   description = "Change this value to regenerate the randonmess"
-  default     = "DoNotChange"
+  default     = "DoNotChangeUnlessYouChange"
 }
 
 variable "use_tfstate_mirror" {
