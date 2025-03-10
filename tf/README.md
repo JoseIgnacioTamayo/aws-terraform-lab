@@ -17,7 +17,7 @@ This needs a pre-existing S3 Bucket where the TF State of all environments is wr
 
 ### How to use
 
-[HOWTO.md]
+[HOWTO.md](./HOWTO.md)
 
 ## Terraform Docs
 
@@ -68,7 +68,7 @@ This needs a pre-existing S3 Bucket where the TF State of all environments is wr
 | <a name="input_aws_account_id"></a> [aws\_account\_id](#input\_aws\_account\_id) | AWS Account ID to deploy the resources to | `string` | n/a | yes |
 | <a name="input_aws_cli_profile"></a> [aws\_cli\_profile](#input\_aws\_cli\_profile) | AWS Cli profile to use to interact with AWS | `string` | n/a | yes |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS Region to deploy the resources to | `string` | n/a | yes |
-| <a name="input_entropy"></a> [entropy](#input\_entropy) | Change this value to regenerate the randonmess | `string` | `"DoNotChange"` | no |
+| <a name="input_entropy"></a> [entropy](#input\_entropy) | Change this value to regenerate the randonmess | `string` | `"DoNotChangeUnlessYouChange"` | no |
 | <a name="input_s3_bucket"></a> [s3\_bucket](#input\_s3\_bucket) | S3 Bucket name | `string` | n/a | yes |
 | <a name="input_s3_region"></a> [s3\_region](#input\_s3\_region) | S3 Bucket Region | `string` | n/a | yes |
 | <a name="input_ssh_publickey_file"></a> [ssh\_publickey\_file](#input\_ssh\_publickey\_file) | Public key to upload to AWS as a KeyPair. Use the private key to SSH to VMs | `string` | n/a | yes |
@@ -86,6 +86,6 @@ This needs a pre-existing S3 Bucket where the TF State of all environments is wr
 | <a name="output_k8s_nodes_dns"></a> [k8s\_nodes\_dns](#output\_k8s\_nodes\_dns) | n/a |
 | <a name="output_mirrored_random_id"></a> [mirrored\_random\_id](#output\_mirrored\_random\_id) | n/a |
 | <a name="output_random_id"></a> [random\_id](#output\_random\_id) | n/a |
-| <a name="output_random_pet"></a> [random\_pet](#output\_random\_pet) | n/a |
+| <a name="output_random_string"></a> [random\_string](#output\_random\_string) | n/a |
 | <a name="output_whoami"></a> [whoami](#output\_whoami) | n/a |
 <!-- END_TF_DOCS -->
