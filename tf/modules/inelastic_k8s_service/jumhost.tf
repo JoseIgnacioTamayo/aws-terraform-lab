@@ -95,20 +95,10 @@ resource "aws_security_group" "jumphost" {
   }
 }
 
-# Checking the Jumphost is UP via Check and Postcondition
-check "jumphost" {
-  data "http" "jumphost_check" {
-    url    = "http://${aws_instance.jumphost.public_dns}:8080"
-    method = "HEAD"
-  }
-  assert {
-    condition     = data.http.jumphost_check.status_code == 204
-    error_message = "Jumphost ${aws_instance.jumphost.public_dns} is not ready"
-  }
-}
+# Checking the Jumphost is UP via Postcondition
 
 data "http" "jumphost" {
-  url    = "http://${aws_instance.jumphost.public_ip}:8080/index.html"
+  url    = "http://${aws_instance.jumphost.public_dns}:8080/index.html"
   method = "GET"
 
   lifecycle {
