@@ -60,7 +60,7 @@ module "magic" {
 module "mirror" {
   source = "./modules/mirror_random_id"
 
-  count = var.use_tfstate_mirror ? 1 : 0
+  count = var.use_tfstate_mirror && var.tfstate_mirror != null ? 1 : 0
 
   providers = {
     aws = aws.tfstate_mirror
