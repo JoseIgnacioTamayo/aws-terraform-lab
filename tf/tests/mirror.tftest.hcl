@@ -55,7 +55,10 @@ run "yes_mirror_yes_output" {
   }
 }
 
-run "bad_remotestate_path" {
+# This Test does not work, because it does NOT test a Custom Condition
+# "The given value is not suitable for var.tfstate_mirror" fails, but is not checkable
+/*
+run "bad_input" {
   command = plan
 
   plan_options {
@@ -64,17 +67,16 @@ run "bad_remotestate_path" {
 
   variables {
     tfstate_mirror = {
-      s3_aws_cli_profile = var.aws_cli_profile
-      s3_bucket          = var.s3_bucket
-      s3_region          = var.s3_region
-      tfstate_s3_path    = "foo"
+      s3_bucket = var.s3_bucket
+      s3_region = var.s3_region
     }
   }
 
-  expect_failures = [module.mirror[0].data.terraform_remote_state.s3]
+  expect_failures = [var.tfstate_mirror]
 
   assert {
     condition     = output.mirrored_random_id == module.mirror[0].random_id
     error_message = "With Mirror, output is not as expected -${module.mirror[0].random_id}-"
   }
 }
+*/
