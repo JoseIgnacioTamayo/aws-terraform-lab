@@ -7,8 +7,8 @@ resource "random_id" "this" {
 }
 
 resource "random_string" "this" {
-  length = var.length
-  # special = false
+  length  = var.length
+  special = var.string_special
 
   keepers = {
     seed = var.seed
@@ -17,19 +17,33 @@ resource "random_string" "this" {
 
 resource "random_integer" "this" {
   min = 3
-  max = var.length % 6
+  max = (var.length % 6) + 3
 
   seed = var.seed
+
+  keepers = {
+    seed = var.seed
+  }
 }
 
 resource "random_pet" "this" {
-  separator = ":_:"
+  separator = var.pet_separator
   length    = random_integer.this.result
 }
 
 variable "length" {
   type    = number
   default = 16
+}
+
+variable "string_special" {
+  type    = bool
+  default = true
+}
+
+variable "pet_separator" {
+  type    = string
+  default = "&"
 }
 
 variable "seed" {
@@ -50,4 +64,8 @@ output "random_string" {
 
 output "random_pet" {
   value = random_pet.this.id
+}
+
+output "random_integer" {
+  value = random_integer.this.result
 }
