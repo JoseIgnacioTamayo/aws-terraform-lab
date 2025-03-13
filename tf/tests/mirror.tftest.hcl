@@ -19,7 +19,6 @@ run "no_mirror_no_output" {
     condition     = output.mirrored_random_id == ""
     error_message = "Without Mirror, output is not empty"
   }
-
 }
 
 

@@ -24,7 +24,7 @@ run "state_not_found" {
   variables {
     terraform_state_path = "foo"
   }
-  expect_failures = [ data.terraform_remote_state.s3 ]
+  expect_failures = [data.terraform_remote_state.s3]
   assert {
     condition     = output.random_string == "not_found"
     error_message = "Did not return expected value when remote state not found"
