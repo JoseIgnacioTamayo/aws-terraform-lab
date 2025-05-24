@@ -81,7 +81,7 @@ resource "aws_vpc_security_group_ingress_rule" "etcd_ssh" {
 
 resource "aws_vpc_security_group_egress_rule" "etcd_etcd" {
   security_group_id = aws_security_group.etcd.id
- 
+
   referenced_security_group_id = aws_security_group.etcd.id
   from_port                    = 2379
   to_port                      = 2380
@@ -90,7 +90,7 @@ resource "aws_vpc_security_group_egress_rule" "etcd_etcd" {
 
 resource "aws_vpc_security_group_ingress_rule" "etcd_etcd" {
   security_group_id = aws_security_group.etcd.id
- 
+
   referenced_security_group_id = aws_security_group.etcd.id
   from_port                    = 2379
   to_port                      = 2380
@@ -99,7 +99,7 @@ resource "aws_vpc_security_group_ingress_rule" "etcd_etcd" {
 
 resource "aws_vpc_security_group_ingress_rule" "etcd_k8s" {
   security_group_id = aws_security_group.etcd.id
- 
+
   referenced_security_group_id = aws_security_group.k8s.id
   from_port                    = 2379
   to_port                      = 2380
@@ -111,6 +111,40 @@ data "aws_instances" "etcd" {
     Name = "etcd"
   }
 
-  depends_on = [ aws_autoscaling_group.etcd ]
+  depends_on = [aws_autoscaling_group.etcd]
 }
 
+resource "aws_autoscaling_attachment" "etcd" {
+  autoscaling_group_name = aws_autoscaling_group.etcd.id
+  elb                    = aws_elb.etcd.id
+}
+
+resource "aws_elb" "etcd" {
+  name = "etcd"
+
+  listener {
+    instance_port     = 2380
+    instance_protocol = "tcp"
+    lb_port           = 2380
+    lb_protocol       = "tcp"
+  }
+
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    target              = "HTTP:2380/"
+    interval            = 30
+  }
+
+  subnets         = [var.etcd_nodes_subnet_id]
+  security_groups = [aws_security_group.etcd.id]
+
+  internal                  = true
+  cross_zone_load_balancing = false
+  connection_draining       = true
+
+  tags = {
+    Name = "etcd"
+  }
+}
