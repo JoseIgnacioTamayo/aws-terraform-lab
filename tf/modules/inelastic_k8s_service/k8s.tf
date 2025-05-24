@@ -70,7 +70,7 @@ resource "aws_vpc_security_group_ingress_rule" "k8s_ssh" {
 
 resource "aws_vpc_security_group_egress_rule" "k8s_etcd" {
   security_group_id = aws_security_group.k8s.id
- 
+
   referenced_security_group_id = aws_security_group.etcd.id
   from_port                    = 2379
   to_port                      = 2380

@@ -1,5 +1,5 @@
 run "invalid_seed" {
-    command = plan
+  command = plan
   variables {
     seed = "foobar"
   }

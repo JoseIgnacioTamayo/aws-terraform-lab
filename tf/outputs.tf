@@ -29,7 +29,7 @@ output "jumphost_ip" {
 }
 
 output "jumphost_user" {
-  value     = module.inelastic_k8s_service.jumphost_user
+  value = module.inelastic_k8s_service.jumphost_user
 }
 
 output "whoami" {
