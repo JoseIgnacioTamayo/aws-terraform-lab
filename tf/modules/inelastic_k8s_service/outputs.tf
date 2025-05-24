@@ -21,3 +21,7 @@ output "jumphost_http_health" {
 output "jumphost_user" {
   value = "admin"
 }
+
+output "etcd_lb_dns" {
+  value = aws_elb.etcd.dns_name
+}

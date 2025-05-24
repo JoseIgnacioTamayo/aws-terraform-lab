@@ -23,6 +23,10 @@ output "etcd_nodes_ips" {
   value = module.inelastic_k8s_service.etcd_nodes_ips
 }
 
+output "etcd_lb_dns" {
+  value = module.inelastic_k8s_service.etcd_lb_dns
+}
+
 output "jumphost_ip" {
   value     = module.inelastic_k8s_service.jumphost_ip
   sensitive = true
