@@ -98,6 +98,17 @@ resource "aws_security_group" "jumphost" {
       prefix_list_ids  = []
       security_groups  = []
       self             = false
+    },
+    {
+      protocol         = "tcp"
+      to_port          = 6443
+      from_port        = 6443
+      description      = "K8S_API"
+      security_groups  = [aws_security_group.k8s.id]
+      cidr_blocks      = []
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      self             = false
     }
   ]
 
