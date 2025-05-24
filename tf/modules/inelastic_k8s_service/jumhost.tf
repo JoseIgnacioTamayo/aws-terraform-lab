@@ -68,6 +68,17 @@ resource "aws_security_group" "jumphost" {
   egress = [
     {
       protocol         = "tcp"
+      to_port          = 80
+      from_port        = 80
+      description      = "All_HTTP"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+      prefix_list_ids  = []
+      security_groups  = []
+      self             = false
+    },
+    {
+      protocol         = "tcp"
       to_port          = 443
       from_port        = 443
       description      = "All_HTTPS"
@@ -100,6 +111,10 @@ resource "aws_security_group" "jumphost" {
 data "http" "jumphost" {
   url    = "http://${aws_instance.jumphost.public_dns}:8080/index.html"
   method = "GET"
+
+  retry {
+    attempts = 3
+  }
 
   lifecycle {
     postcondition {
