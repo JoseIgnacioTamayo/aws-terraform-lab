@@ -23,3 +23,12 @@ resource "aws_key_pair" "this" {
   key_name   = "vm-key"
   public_key = file(var.ssh_publickey_file)
 }
+
+# Only assign IAM Role to VMs if calling AWS with enough premissions
+# SSO Role PowerUser does NOT have access to read/use IAM Roles or Instance Profiles
+resource "aws_iam_instance_profile" "this" {
+  count = var.enable_vm_iam_role ? 1 : 0
+
+  name = "iks-vm-profile"
+  role = var.vm_iam_role
+}
