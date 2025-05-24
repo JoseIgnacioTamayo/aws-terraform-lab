@@ -15,7 +15,7 @@ resource "aws_launch_template" "etcd" {
     }
   }
 
-  image_id = data.aws_ami.debian11.image_id
+  image_id = data.aws_ami.debian12.image_id
 
   key_name = aws_key_pair.this.key_name
 
@@ -102,7 +102,7 @@ resource "aws_vpc_security_group_ingress_rule" "etcd_k8s" {
 
   referenced_security_group_id = aws_security_group.k8s.id
   from_port                    = 2379
-  to_port                      = 2380
+  to_port                      = 2379
   ip_protocol                  = "tcp"
 }
 
@@ -123,9 +123,9 @@ resource "aws_elb" "etcd" {
   name = "etcd"
 
   listener {
-    instance_port     = 2380
+    instance_port     = 2379
     instance_protocol = "tcp"
-    lb_port           = 2380
+    lb_port           = 2379
     lb_protocol       = "tcp"
   }
 
@@ -133,7 +133,7 @@ resource "aws_elb" "etcd" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    target              = "HTTP:2380/"
+    target              = "TCP:2379"
     interval            = 30
   }
 

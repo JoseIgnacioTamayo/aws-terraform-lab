@@ -10,7 +10,7 @@ resource "aws_instance" "jumphost" {
     Name = "jumphost"
   }
 
-  ami = data.aws_ami.debian11.image_id
+  ami = data.aws_ami.debian12.image_id
 
   instance_market_options {
     market_type = "spot"

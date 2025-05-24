@@ -1,11 +1,11 @@
-# Debian 11 Bullseye
-data "aws_ami" "debian11" {
+# Debian 12 Bookworm
+data "aws_ami" "debian12" {
   most_recent = true
   owners      = ["136693071363"]
 
   filter {
     name   = "name"
-    values = ["debian-11-*"]
+    values = ["debian-12-*"]
   }
 
   filter {
