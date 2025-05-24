@@ -15,13 +15,21 @@ output "mirrored_random_id" {
   value = var.use_tfstate_mirror ? module.mirror[0].random_id : ""
 }
 
-output "k8s_nodes_dns" {
-  value = module.inelastic_k8s_service.k8s_nodes_dns
+output "k8s_nodes_ips" {
+  value = module.inelastic_k8s_service.k8s_nodes_ips
+}
+
+output "etcd_nodes_ips" {
+  value = module.inelastic_k8s_service.etcd_nodes_ips
 }
 
 output "jumphost_ip" {
   value     = module.inelastic_k8s_service.jumphost_ip
   sensitive = true
+}
+
+output "jumphost_user" {
+  value     = module.inelastic_k8s_service.jumphost_user
 }
 
 output "whoami" {

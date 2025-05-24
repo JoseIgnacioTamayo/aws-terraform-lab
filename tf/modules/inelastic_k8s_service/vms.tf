@@ -141,6 +141,15 @@ resource "aws_vpc_security_group_ingress_rule" "k8s_ssh" {
   to_port                      = 22
 }
 
+resource "aws_vpc_security_group_egress_rule" "k8s_etcd" {
+  security_group_id = aws_security_group.k8s.id
+ 
+  referenced_security_group_id = aws_security_group.etcd.id
+  from_port                    = 2379
+  to_port                      = 2380
+  ip_protocol                  = "tcp"
+}
+
 resource "aws_security_group" "etcd" {
   name   = "etcd"
   vpc_id = var.vpc_id
@@ -157,4 +166,39 @@ resource "aws_vpc_security_group_ingress_rule" "etcd_ssh" {
   from_port                    = 22
   ip_protocol                  = "tcp"
   to_port                      = 22
+}
+
+resource "aws_vpc_security_group_egress_rule" "etcd_etcd" {
+  security_group_id = aws_security_group.etcd.id
+ 
+  referenced_security_group_id = aws_security_group.etcd.id
+  from_port                    = 2379
+  to_port                      = 2380
+  ip_protocol                  = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "etcd_etcd" {
+  security_group_id = aws_security_group.etcd.id
+ 
+  referenced_security_group_id = aws_security_group.etcd.id
+  from_port                    = 2379
+  to_port                      = 2380
+  ip_protocol                  = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "etcd_k8s" {
+  security_group_id = aws_security_group.etcd.id
+ 
+  referenced_security_group_id = aws_security_group.k8s.id
+  from_port                    = 2379
+  to_port                      = 2380
+  ip_protocol                  = "tcp"
+}
+
+data "aws_instances" "etcd" {
+  instance_tags = {
+    Name = "etcd"
+  }
+
+  depends_on = [ aws_autoscaling_group.etcd ]
 }

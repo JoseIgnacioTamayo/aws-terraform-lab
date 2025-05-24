@@ -25,7 +25,7 @@ variable "k8s_nodes_count" {
 
 variable "etcd_nodes_count" {
   type    = number
-  default = 2
+  default = 3
 }
 
 variable "ssh_publickey_file" {
