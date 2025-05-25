@@ -104,6 +104,15 @@ resource "aws_vpc_security_group_ingress_rule" "k8s_nodeport" {
   to_port                      = 32767
 }
 
+resource "aws_vpc_security_group_ingress_rule" "k8s_service" {
+  security_group_id = aws_security_group.k8s.id
+
+  referenced_security_group_id = aws_security_group.jumphost.id
+  from_port                    = 30000
+  ip_protocol                  = "tcp"
+  to_port                      = 32767
+}
+
 resource "aws_vpc_security_group_egress_rule" "k8s_etcd" {
   security_group_id = aws_security_group.k8s.id
 
@@ -138,4 +147,15 @@ resource "aws_vpc_security_group_egress_rule" "k8s_nodeport" {
   from_port                    = 30000
   ip_protocol                  = "tcp"
   to_port                      = 32767
+}
+
+resource "aws_vpc_security_group_egress_rule" "k8s_https" {
+  security_group_id = aws_security_group.k8s.id
+
+  
+  from_port                    = 443
+  ip_protocol                  = "tcp"
+  to_port                      = 443
+
+  cidr_ipv4 = "0.0.0.0/0"
 }
